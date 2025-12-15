@@ -690,7 +690,7 @@
           <div class="card-title">Pedido #${p.pedido}</div>
           <div class="card-sub">Cliente: ${p.cliente || '-'}</div>
           <div class="card-sub">Divisão: ${p.divisao || '-'}</div>
-          <div class="card-sub">Entrega: ${formatDateIsoToBr(p.entregaDate)+1 || '-'}</div>
+          <div class="card-sub">Entrega: ${formatDateIsoToBr(p.entregaDate +1) || '-'}</div>
           ${p.faturadoNumero ? `<div class="card-sub" style="color:var(--accent);font-weight:700">Faturado: ${String(p.faturadoNumero).padStart(9, '0')}</div>` : ''}
         </div>
         <div>${badge(p.categoria)}</div>
@@ -1210,3 +1210,4 @@
 </body>
 
 </html>
+
