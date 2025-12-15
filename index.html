@@ -653,11 +653,24 @@
     let activeCategory = 'Atrasados';
     let activeDivisions = new Set();
 
-    function formatDateIsoBr(iso) {
-      if (!iso) return '-';
-      const [y, m, d] = iso.split('-');
-      return `${d}/${m}/${y}`;
-    }
+function formatDateIsoBr(iso) {
+  if (!iso) return '-';
+
+  // 1. Cria um objeto Date a partir da string ISO (será interpretado como 00:00:00 UTC)
+  const dateObj = new Date(iso);
+
+  // 2. Adiciona 1 dia (24 horas) para corrigir o deslocamento de fuso
+  // Isso move a data de 2025-12-15T00:00:00.000Z para 2025-12-16T00:00:00.000Z (dia 16)
+  dateObj.setDate(dateObj.getDate() + 1); 
+
+  // 3. Pega os componentes da data já ajustada
+  const y = dateObj.getFullYear();
+  // Mês é zero-indexado, então adicionamos 1
+  const m = String(dateObj.getMonth() + 1).padStart(2, '0'); 
+  const d = String(dateObj.getDate()).padStart(2, '0');
+
+  return `${d}/${m}/${y}`;
+}
     function stageClass(stage, index) {
       if (stage >= 3 && index === 3) return 'active-3';
       if (stage >= 2 && index === 2) return 'active-2';
@@ -1210,6 +1223,7 @@
 </body>
 
 </html>
+
 
 
 
