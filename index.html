@@ -106,7 +106,7 @@
     .filter-btn {
       border: 1px solid var(--border); background: var(--chip); color: var(--primary);
       padding: 6px 12px; border-radius: 999px; font-weight: 600; cursor: pointer; font-size: 13px;
-      min-width: 120px; /* Para acomodar a contagem */
+      min-width: 120px; 
       transition: background 0.2s, color 0.2s;
     }
     .filter-btn:hover:not(.active) { background: #eef2fff0; }
@@ -702,7 +702,7 @@
 
       const header = document.createElement('div');
       header.className = 'card-header';
-      // Implementação dos novos campos (Vendedora, Tipo Entrega, Observações) e correção de layout
+      // Implementação dos novos campos (Vendedora, Tipo Entrega, Observações)
       header.innerHTML = `
         <div>
           <div class="card-title">Pedido #${p.pedido}</div>
@@ -806,7 +806,7 @@
       meta.textContent = `Atualizado: ${new Date().toLocaleString()} • Categoria: ${activeCategory} • Exibindo: ${filtered.length}`;
     }
     
-    // NOVO: Função para atualizar a contagem dos botões
+    // FUNÇÃO PARA ATUALIZAR A CONTAGEM DOS BOTÕES
     function updateFilterCounts() {
         const counts = allPedidos.reduce((acc, p) => {
             acc[p.categoria] = (acc[p.categoria] || 0) + 1;
@@ -844,7 +844,7 @@
           });
         });
         
-        // Chamada da nova função de contagem
+        // Chamada da função de contagem
         updateFilterCounts();
 
         meta.textContent = `Atualizado: ${new Date(data.updatedAt).toLocaleString()} • Total de Pedidos: ${data.totalPedidos}`;
@@ -1090,7 +1090,7 @@
     
     function rastreadorMostrarErro(erro) {
       const resultsDiv = document.getElementById('trackerResults');
-      resultsDiv.innerHTML = '<div class="error">❌ Erro: ' + erro + '</div>';
+      resultsDiv.innerHTML = '<div class="error">❌ ' + erro + '</div>';
       resultsDiv.classList.add('show');
       document.getElementById('itemSelectionContainer').style.display = 'none';
       document.getElementById('downloadGroup').style.display = 'none';
