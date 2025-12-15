@@ -23,8 +23,8 @@
       --ok-bg: #dcfce7;     --ok-tx: #166534;
 
       /* VARS DO RASTREADOR (Adaptadas) */
-      --doremus-blue: var(--primary);
-      --doremus-red: var(--accent);
+      --doremus-blue: var(--primary); /* Reutilizando a cor primária */
+      --doremus-red: var(--accent); /* Reutilizando a cor de destaque */
       --doremus-blue-light: #0056CC;
     }
 
@@ -48,6 +48,7 @@
       background: #f3f4f6;
       border-right: 1px solid var(--border);
       padding: 16px;
+      /* Novo estilo para empurrar o rodapé para baixo */
       display: flex;
       flex-direction: column; 
     }
@@ -64,7 +65,7 @@
     
     /* Novo estilo para o rodapé da sidebar */
     .sidebar-footer {
-        margin-top: auto;
+        margin-top: auto; /* Empurra para o final */
         padding-top: 15px;
         border-top: 1px solid var(--border);
         font-size: 11px;
@@ -85,11 +86,9 @@
     .btn {
       background: var(--accent); color: #fff; border: none;
       padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px;
-      transition: background 0.2s;
     }
-    .btn:hover { background: #b91c1c; }
 
-    /* Barra de pesquisa */
+    /* Barra de pesquisa (agora fixa no header) */
     .search-bar {
       display: flex; justify-content: center; padding: 12px;
       background: #fafafa;
@@ -106,10 +105,7 @@
     .filter-btn {
       border: 1px solid var(--border); background: var(--chip); color: var(--primary);
       padding: 6px 12px; border-radius: 999px; font-weight: 600; cursor: pointer; font-size: 13px;
-      min-width: 120px; 
-      transition: background 0.2s, color 0.2s;
     }
-    .filter-btn:hover:not(.active) { background: #eef2fff0; }
     .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
     main { padding: 16px 20px; }
@@ -119,19 +115,6 @@
       grid-template-columns: repeat(4, minmax(240px, 1fr));
       gap: 12px;
     }
-    @media (max-width: 1400px) {
-        .grid { grid-template-columns: repeat(3, minmax(240px, 1fr)); }
-    }
-    @media (max-width: 1000px) {
-        .grid { grid-template-columns: repeat(2, minmax(240px, 1fr)); }
-    }
-    @media (max-width: 700px) {
-        .layout { grid-template-columns: 1fr; }
-        .sidebar { position: relative; height: auto; }
-        .grid { grid-template-columns: 1fr; }
-        .search-bar input { width: 90%; max-width: none; }
-    }
-
 
     .card {
       background: var(--card); border: 1px solid var(--border); border-radius: 12px;
@@ -176,7 +159,7 @@
       padding: 12px 20px; text-align: center; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border);
     }
 
-    /* ESTILOS DO RASTREADOR DE PEDIDOS */
+    /* ESTILOS DO RASTREADOR DE PEDIDOS (INSERIDOS) */
     .tracker-wrapper {
         padding: 16px 20px;
     }
@@ -448,7 +431,7 @@
       margin-top: 8px;
     }
     
-    .tracker-badge {
+    .tracker-badge { /* Renomeado de .badge para evitar conflito */
       display: inline-block;
       padding: 4px 10px;
       border-radius: 4px;
@@ -551,7 +534,7 @@
         <a href="#" id="trackerLink" onclick="toggleView('tracker')" style="
           display: block; 
           padding: 8px 12px; 
-          background: var(--primary);
+          background: var(--primary); /* Inativo por padrão */
           color: #fff; 
           text-decoration: none; 
           border-radius: 8px; 
@@ -670,7 +653,8 @@
     let activeCategory = 'Atrasados';
     let activeDivisions = new Set();
 
-    function formatDateIsoBr(iso) {
+    // VERSÃO ANTERIOR: Sem Vendedora/Tipo Entrega/Observações
+    function formatDateIsoToBr(iso) {
       if (!iso) return '-';
       const [y, m, d] = iso.split('-');
       return `${d}/${m}/${y}`;
@@ -702,17 +686,14 @@
 
       const header = document.createElement('div');
       header.className = 'card-header';
-      // Implementação dos novos campos (Vendedora, Tipo Entrega, Observações)
+      // MANTIDO: estrutura anterior que funcionava (mas sem os novos campos)
       header.innerHTML = `
         <div>
           <div class="card-title">Pedido #${p.pedido}</div>
           <div class="card-sub">Cliente: ${p.cliente || '-'}</div>
           <div class="card-sub">Divisão: ${p.divisao || '-'}</div>
-          <div class="card-sub">Entrega: ${formatDateIsoBr(p.entregaDate) || '-'}</div>
-          <div class="card-sub">Vendedora: ${p.vendedora || '-'}</div>
-          <div class="card-sub">Tipo Entrega: ${p.tipoEntrega || '-'}</div>
+          <div class="card-sub">Entrega: ${formatDateIsoToBr(p.entregaDate) || '-'}</div>
           ${p.faturadoNumero ? `<div class="card-sub" style="color:var(--accent);font-weight:700">Faturado: ${String(p.faturadoNumero).padStart(9, '0')}</div>` : ''}
-          ${p.observacoes ? `<div class="card-sub" style="color:var(--danger-tx);font-weight:700">Obs: ${p.observacoes}</div>` : ''}
         </div>
         <div>${badge(p.categoria)}</div>
       `;
@@ -805,20 +786,9 @@
 
       meta.textContent = `Atualizado: ${new Date().toLocaleString()} • Categoria: ${activeCategory} • Exibindo: ${filtered.length}`;
     }
-    
-    // FUNÇÃO PARA ATUALIZAR A CONTAGEM DOS BOTÕES
-    function updateFilterCounts() {
-        const counts = allPedidos.reduce((acc, p) => {
-            acc[p.categoria] = (acc[p.categoria] || 0) + 1;
-            return acc;
-        }, {});
 
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            const cat = btn.dataset.cat;
-            const count = counts[cat] || 0;
-            btn.textContent = `${cat} (${count})`;
-        });
-    }
+    // FUNÇÃO DE CONTAGEM (Versão anterior sem contagem dinâmica nos botões)
+    /* A versão original que funcionava não incluía a função de contagem dinâmica nos botões */
 
     async function loadAndRender() {
       const meta = document.getElementById('meta');
@@ -843,11 +813,9 @@
             render(document.getElementById('searchInput').value);
           });
         });
-        
-        // Chamada da função de contagem
-        updateFilterCounts();
 
-        meta.textContent = `Atualizado: ${new Date(data.updatedAt).toLocaleString()} • Total de Pedidos: ${data.totalPedidos}`;
+        // MANTIDO: o meta.textContent exibia o status anterior à contagem dinâmica
+        meta.textContent = `Atualizado: ${new Date(data.updatedAt).toLocaleString()} • Total: ${data.totalPedidos}`;
         render(document.getElementById('searchInput').value);
       } catch (err) {
         const sections = document.getElementById('sections');
@@ -890,19 +858,19 @@
       const trackerLink = document.getElementById('trackerLink');
       
       if (view === 'dashboard') {
-          dashboard.style.display = 'block';
+          dashboard.style.display = 'block'; // Usar 'block' para o fluxo normal de layout
           tracker.style.display = 'none';
-          trackerLink.style.background = 'var(--primary)';
+          trackerLink.style.background = 'var(--primary)'; // Cor inativa
           render(document.getElementById('searchInput').value);
       } else if (view === 'tracker') {
           dashboard.style.display = 'none';
           tracker.style.display = 'block';
-          trackerLink.style.background = 'var(--accent)';
+          trackerLink.style.background = 'var(--accent)'; // Cor ativa
       }
     }
 
 
-    // --- LÓGICA DO RASTREADOR DE PEDIDOS ---
+    // --- LÓGICA DO RASTREADOR DE PEDIDOS (RENOMEADA PARA EVITAR CONFLITO) ---
     const RASTREADOR_WEB_APP_URL = 'https://script.google.com/a/macros/doremus.com.br/s/AKfycbxTGO3RP3O8EgJ9CL_Y4PaoEbqjnLgHG8Mr1vP_aCQscMWY0pdNQ_U7IN8NysDNMrD9/exec';
     
     let ultimoResultado = null;
@@ -1090,7 +1058,7 @@
     
     function rastreadorMostrarErro(erro) {
       const resultsDiv = document.getElementById('trackerResults');
-      resultsDiv.innerHTML = '<div class="error">❌ ' + erro + '</div>';
+      resultsDiv.innerHTML = '<div class="error">❌ Erro: ' + erro + '</div>';
       resultsDiv.classList.add('show');
       document.getElementById('itemSelectionContainer').style.display = 'none';
       document.getElementById('downloadGroup').style.display = 'none';
