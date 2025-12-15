@@ -653,7 +653,7 @@
     let activeCategory = 'Atrasados';
     let activeDivisions = new Set();
 
-    function formatDateIsoToBr(iso) {
+    function formatDateIsoBr(iso) {
       if (!iso) return '-';
       const [y, m, d] = iso.split('-');
       return `${d}/${m}/${y}`;
@@ -690,7 +690,7 @@
           <div class="card-title">Pedido #${p.pedido}</div>
           <div class="card-sub">Cliente: ${p.cliente || '-'}</div>
           <div class="card-sub">Divisão: ${p.divisao || '-'}</div>
-          <div class="card-sub">Entrega: ${formatDateIsoToBr(p.entregaDate) || '-'}</div>
+          <div class="card-sub">Entrega: ${formatDateIsoBr(p.entregaDate) || '-'}</div>
           ${p.faturadoNumero ? `<div class="card-sub" style="color:var(--accent);font-weight:700">Faturado: ${String(p.faturadoNumero).padStart(9, '0')}</div>` : ''}
         </div>
         <div>${badge(p.categoria)}</div>
@@ -1210,6 +1210,7 @@
 </body>
 
 </html>
+
 
 
 
