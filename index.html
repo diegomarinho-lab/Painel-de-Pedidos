@@ -23,8 +23,8 @@
       --ok-bg: #dcfce7;     --ok-tx: #166534;
 
       /* VARS DO RASTREADOR (Adaptadas) */
-      --doremus-blue: var(--primary); /* Reutilizando a cor primária */
-      --doremus-red: var(--accent); /* Reutilizando a cor de destaque */
+      --doremus-blue: var(--primary);
+      --doremus-red: var(--accent);
       --doremus-blue-light: #0056CC;
     }
 
@@ -48,7 +48,6 @@
       background: #f3f4f6;
       border-right: 1px solid var(--border);
       padding: 16px;
-      /* Novo estilo para empurrar o rodapé para baixo */
       display: flex;
       flex-direction: column; 
     }
@@ -65,7 +64,7 @@
     
     /* Novo estilo para o rodapé da sidebar */
     .sidebar-footer {
-        margin-top: auto; /* Empurra para o final */
+        margin-top: auto;
         padding-top: 15px;
         border-top: 1px solid var(--border);
         font-size: 11px;
@@ -86,9 +85,11 @@
     .btn {
       background: var(--accent); color: #fff; border: none;
       padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px;
+      transition: background 0.2s;
     }
+    .btn:hover { background: #b91c1c; }
 
-    /* Barra de pesquisa (agora fixa no header) */
+    /* Barra de pesquisa */
     .search-bar {
       display: flex; justify-content: center; padding: 12px;
       background: #fafafa;
@@ -105,9 +106,10 @@
     .filter-btn {
       border: 1px solid var(--border); background: var(--chip); color: var(--primary);
       padding: 6px 12px; border-radius: 999px; font-weight: 600; cursor: pointer; font-size: 13px;
-      /* Ajuste para ter espaço para a contagem */
-      min-width: 120px;
+      min-width: 120px; /* Para acomodar a contagem */
+      transition: background 0.2s, color 0.2s;
     }
+    .filter-btn:hover:not(.active) { background: #eef2fff0; }
     .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
     main { padding: 16px 20px; }
@@ -117,19 +119,18 @@
       grid-template-columns: repeat(4, minmax(240px, 1fr));
       gap: 12px;
     }
-    /* Ajuste para telas menores */
-    @media (max-width: 1400px) {
-        .grid { grid-template-columns: repeat(3, minmax(240px, 1fr)); }
-    }
-    @media (max-width: 1000px) {
-        .grid { grid-template-columns: repeat(2, minmax(240px, 1fr)); }
-    }
-    @media (max-width: 700px) {
-        .layout { grid-template-columns: 1fr; }
-        .sidebar { position: relative; height: auto; }
-        .grid { grid-template-columns: 1fr; }
-        .search-bar input { width: 90%; max-width: none; }
-    }
+    @media (max-width: 1400px) {
+        .grid { grid-template-columns: repeat(3, minmax(240px, 1fr)); }
+    }
+    @media (max-width: 1000px) {
+        .grid { grid-template-columns: repeat(2, minmax(240px, 1fr)); }
+    }
+    @media (max-width: 700px) {
+        .layout { grid-template-columns: 1fr; }
+        .sidebar { position: relative; height: auto; }
+        .grid { grid-template-columns: 1fr; }
+        .search-bar input { width: 90%; max-width: none; }
+    }
 
 
     .card {
@@ -175,7 +176,7 @@
       padding: 12px 20px; text-align: center; color: var(--muted); font-size: 12px; border-top: 1px solid var(--border);
     }
 
-    /* ESTILOS DO RASTREADOR DE PEDIDOS (MANTIDOS) */
+    /* ESTILOS DO RASTREADOR DE PEDIDOS */
     .tracker-wrapper {
         padding: 16px 20px;
     }
@@ -447,7 +448,7 @@
       margin-top: 8px;
     }
     
-    .tracker-badge { /* Renomeado de .badge para evitar conflito */
+    .tracker-badge {
       display: inline-block;
       padding: 4px 10px;
       border-radius: 4px;
@@ -550,7 +551,7 @@
         <a href="#" id="trackerLink" onclick="toggleView('tracker')" style="
           display: block; 
           padding: 8px 12px; 
-          background: var(--primary); /* Inativo por padrão */
+          background: var(--primary);
           color: #fff; 
           text-decoration: none; 
           border-radius: 8px; 
@@ -671,9 +672,6 @@
 
     function formatDateIsoBr(iso) {
       if (!iso) return '-';
-      
-      // Correção de fuso horário no frontend, se necessário. 
-      // Se o GAS for corrigido com +1 dia, este trecho simples funciona:
       const [y, m, d] = iso.split('-');
       return `${d}/${m}/${y}`;
     }
@@ -704,7 +702,7 @@
 
       const header = document.createElement('div');
       header.className = 'card-header';
-      // Inclusão dos novos campos e da observação em destaque
+      // Implementação dos novos campos (Vendedora, Tipo Entrega, Observações) e correção de layout
       header.innerHTML = `
         <div>
           <div class="card-title">Pedido #${p.pedido}</div>
@@ -892,19 +890,19 @@
       const trackerLink = document.getElementById('trackerLink');
       
       if (view === 'dashboard') {
-          dashboard.style.display = 'block'; // Usar 'block' para o fluxo normal de layout
+          dashboard.style.display = 'block';
           tracker.style.display = 'none';
-          trackerLink.style.background = 'var(--primary)'; // Cor inativa
+          trackerLink.style.background = 'var(--primary)';
           render(document.getElementById('searchInput').value);
       } else if (view === 'tracker') {
           dashboard.style.display = 'none';
           tracker.style.display = 'block';
-          trackerLink.style.background = 'var(--accent)'; // Cor ativa
+          trackerLink.style.background = 'var(--accent)';
       }
     }
 
 
-    // --- LÓGICA DO RASTREADOR DE PEDIDOS (MANTIDA) ---
+    // --- LÓGICA DO RASTREADOR DE PEDIDOS ---
     const RASTREADOR_WEB_APP_URL = 'https://script.google.com/a/macros/doremus.com.br/s/AKfycbxTGO3RP3O8EgJ9CL_Y4PaoEbqjnLgHG8Mr1vP_aCQscMWY0pdNQ_U7IN8NysDNMrD9/exec';
     
     let ultimoResultado = null;
