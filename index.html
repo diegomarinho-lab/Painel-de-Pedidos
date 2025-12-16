@@ -351,153 +351,127 @@
     }
     
     .timeline-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--doremus-blue);
-      margin-bottom: 15px;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 15px;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 5px;
     }
-
+    
     .item-timeline-title {
         font-size: 14px;
         font-weight: 700;
-        color: #333;
+        color: var(--accent);
         margin-top: 20px;
         margin-bottom: 10px;
-        padding-left: 10px;
-        border-left: 3px solid var(--doremus-blue);
     }
     
     .timeline-item {
-      position: relative;
-      padding-left: 30px;
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-left: 2px solid #e0e0e0;
+        border-left: 3px solid var(--primary);
+        padding-left: 15px;
+        margin-bottom: 20px;
+        position: relative;
     }
     
-    .timeline-item:last-child {
-      border-left: none;
-    }
-    
-    .timeline-dot {
-      position: absolute;
-      left: -8px;
-      top: 0;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--doremus-blue);
-      border: 2px solid white;
-      box-shadow: 0 0 0 2px var(--doremus-blue);
-    }
-    
-    .timeline-item.atrasado .timeline-dot {
-      background: var(--doremus-red);
-      box-shadow: 0 0 0 2px var(--doremus-red);
-    }
-    
-    .timeline-item.entregue .timeline-dot {
-      background: #4f4;
-      box-shadow: 0 0 0 2px #4f4;
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -6px;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        background: var(--primary);
+        border-radius: 50%;
     }
     
     .timeline-status {
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 4px;
-      font-size: 14px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
     
-    .timeline-item.atrasado .timeline-status {
-      color: var(--doremus-red);
-    }
-    
-    .timeline-item.entregue .timeline-status {
-      color: #4f4;
-    }
-    
-    .timeline-previsao {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 4px;
-    }
-    
-    .timeline-motivo {
-      font-size: 13px;
-      color: #999;
-      font-style: italic;
+    .timeline-previsao, .timeline-motivo {
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 3px;
     }
     
     .timeline-data {
-      font-size: 12px;
-      color: #999;
-      margin-top: 8px;
+        font-size: 12px;
+        color: #999;
     }
     
-    .tracker-badge { /* Renomeado de .badge para evitar conflito */
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 600;
-      margin-left: 8px;
-      text-transform: uppercase;
+    .tracker-badge {
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 10px;
+        font-weight: 700;
+        color: white;
     }
     
     .badge-atrasado {
-      background: #fee;
-      color: var(--doremus-red);
+        background: var(--doremus-red);
     }
     
     .badge-entregue {
-      background: #efe;
-      color: #4f4;
+        background: var(--stage3);
+    }
+    
+    .timeline-item.atrasado {
+        border-left-color: var(--doremus-red);
+    }
+    
+    .timeline-item.atrasado::before {
+        background: var(--doremus-red);
+    }
+    
+    .timeline-item.entregue {
+        border-left-color: var(--stage3);
+    }
+    
+    .timeline-item.entregue::before {
+        background: var(--stage3);
     }
     
     .loading {
-      text-align: center;
-      padding: 20px;
-      color: var(--doremus-blue);
+        text-align: center;
+        padding: 30px;
+        font-size: 16px;
+        color: var(--primary);
     }
     
     .spinner {
-      border: 3px solid #f0f0f0;
-      border-top: 3px solid var(--doremus-blue);
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 10px;
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-top: 4px solid var(--primary);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 10px auto;
     }
     
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
-
+    
     .item-selection {
         margin-top: 20px;
         padding: 15px;
-        border: 1px solid #e0e0e0;
+        border: 1px solid var(--border);
         border-radius: 8px;
-        background: #f5f5f5;
+        background: #f9f9f9;
     }
-
-    .item-selection label {
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
+    
     .item-list {
         display: flex;
-        flex-direction: column;
-        gap: 8px;
+        flex-wrap: wrap;
+        gap: 15px;
         margin-top: 10px;
-    }
-
-    .item-list input[type="checkbox"] {
-        margin-right: 10px;
     }
 
     .item-list label {
@@ -521,7 +495,7 @@
         <a href="https://www.appsheet.com/start/c98df043-946e-4d35-a171-89bc9cf3d2e4" target="_blank" style="
           display: block; 
           padding: 8px 12px; 
-          background: var(--accent); 
+          background: var(--accent ); 
           color: #fff; 
           text-decoration: none; 
           border-radius: 8px; 
@@ -553,7 +527,8 @@
       <div id="divisionFilters"></div>
       
       <div class="sidebar-footer">
-        Desenvolvido por Diego Marinho<br>
+        Desenvolvido por Diego Marinho  
+
         Controladoria de Vendas
       </div>
     </aside>
@@ -599,9 +574,9 @@
         <div class="tracker-container">
           <div class="tracker-header">
             <h1>
-              <img src="https://iili.io/fT5aWN4.th.png" 
-                  alt="Logo Doremus" 
-                  style="height: 30px; margin-right: 10px; vertical-align: middle;"> 
+              <img src="https://iili.io/fT5aWN4.th.png" 
+                  alt="Logo Doremus" 
+                  style="height: 30px; margin-right: 10px; vertical-align: middle;"> 
               Rastreador de Pedidos
             </h1>
             <p>Consulte o histórico completo de acompanhamento do seu pedido</p>
@@ -614,7 +589,7 @@
               <input 
                 type="text" 
                 id="orderNumber" 
-                placeholder="Digite o número do pedido (ex: 473457)"
+                placeholder="Digite o número do pedido (ex: 473457 )"
                 onkeypress="if(event.key==='Enter') rastreadorBuscarPedido()"
               >
             </div>
@@ -647,10 +622,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     // --- LÓGICA DO DASHBOARD DE PEDIDOS PENDENTES ---
+    // ATENÇÃO: Use a URL de implantação do seu Web App
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyvSqRwhuFoHeFPKpsIY3oCoH0b84_uIkDntZhuAtLsV3XvWlgSKcvfNMyx_KDb5ro/exec';
     const AUTO_REFRESH_MS = 600000; // 10 min
     const LOGO_URL = 'https://www.appsheet.com/fsimage.png?appid=e6dbb840-9231-483a-9c9c-f878f9afa058&datasource=google&filename=DocId%3D1xWPFjq8YL808Dv40uzwimCN0j8-UwwoD&signature=f8b5fd7133e3ad2b0f5f8f16ede0593312d97ed3f9f333f2b8957f84f58c29c4&tableprovider=google&userid=104514639';
-    document.getElementById('logoImg').src = LOGO_URL;
+    document.getElementById('logoImg' ).src = LOGO_URL;
 
     let allPedidos = [];
     let activeCategory = 'Atrasados';
@@ -660,8 +636,6 @@
     function formatDateIsoToBr(iso) {
       if (!iso) return '-';
       
-      // CORREÇÃO FINAL DA DATA: Se o GAS já está compensando o fuso horário,
-      // esta função deve apenas fazer a formatação de string segura.
       const parts = iso.split('-');
       if (parts.length === 3) {
           const [y, m, d] = parts;
@@ -682,32 +656,62 @@
       return '<span class="badge badge-ok">Futuros</span>';
     }
 
-    async function fetchData() {
-      const meta = document.getElementById('meta');
-      try {
-          const res = await fetch(WEB_APP_URL, { cache: 'no-store' });
-          if (!res.ok) {
-              const errorText = await res.text();
-              throw new Error(`Erro HTTP ${res.status}: O servidor do GAS respondeu com erro. Detalhes: ${errorText.substring(0, 500)}...`);
-          }
-          const data = await res.json();
-          if (data?.error) {
-              throw new Error(data.message || 'Erro de backend no GAS. Verifique os logs.');
-          }
-          return data;
-      } catch (err) {
-          const errorMsg = err?.message || 'Erro de conexão/rede (fetch failed). Verifique a URL do Web App.';
-          
-          if (document.getElementById('dashboardContent').style.display !== 'none') {
-             meta.textContent = `ERRO CRÍTICO: ${errorMsg}`;
-             document.getElementById('sections').innerHTML = `<div style="padding: 20px; color: var(--danger-tx); background: var(--danger-bg); border-radius: 8px;">
-                 Não foi possível carregar os dados. Detalhes do Erro: ${errorMsg}
-                 <p style="margin-top: 10px; font-size: 13px;">Verifique se o Web App (URL: ${WEB_APP_URL}) foi publicado corretamente e se possui permissão de acesso "Qualquer pessoa".</p>
-             </div>`;
-          }
-          
-          throw err;
-      }
+    // NOVO: Função de callback para JSONP
+    function handleGasResponse(data) {
+        // Esta função é chamada automaticamente quando o GAS retorna os dados
+        
+        // Remove o script tag injetado
+        const script = document.getElementById('gasScript');
+        if (script) script.remove();
+        
+        // Chama a função principal de carregamento
+        processDataAndRender(data);
+    }
+
+    // NOVO: Função para carregar dados usando JSONP
+    function fetchData() {
+        return new Promise((resolve, reject) => {
+            const meta = document.getElementById('meta');
+            
+            // 1. Define a URL com o parâmetro 'callback'
+            const url = WEB_APP_URL + '?callback=handleGasResponse';
+            
+            // 2. Cria um novo elemento script
+            const script = document.createElement('script');
+            script.src = url;
+            script.id = 'gasScript';
+            
+            // 3. Define um timeout para caso a requisição falhe
+            const timeout = setTimeout(() => {
+                script.remove();
+                meta.textContent = `ERRO CRÍTICO: Timeout ao carregar dados do Google Apps Script.`;
+                document.getElementById('sections').innerHTML = `<div style="padding: 20px; color: var(--danger-tx); background: var(--danger-bg); border-radius: 8px;">
+                    Não foi possível carregar os dados. Detalhes do Erro: Timeout ao carregar dados do Google Apps Script.
+                    <p style="margin-top: 10px; font-size: 13px;">Verifique se o Web App (URL: ${WEB_APP_URL}) foi publicado corretamente e se possui permissão de acesso "Qualquer pessoa".</p>
+                </div>`;
+                reject(new Error('Timeout ao carregar dados do Google Apps Script.'));
+            }, 30000); // 30 segundos de timeout
+            
+            // 4. A função handleGasResponse será chamada em caso de sucesso.
+            window.processDataAndRender = function(data) {
+                clearTimeout(timeout);
+                
+                if (data?.error) {
+                    const errorMsg = data.message || 'Erro de backend no GAS. Verifique os logs.';
+                    meta.textContent = `ERRO CRÍTICO: ${errorMsg}`;
+                    document.getElementById('sections').innerHTML = `<div style="padding: 20px; color: var(--danger-tx); background: var(--danger-bg); border-radius: 8px;">
+                        Não foi possível carregar os dados. Detalhes do Erro: ${errorMsg}
+                        <p style="margin-top: 10px; font-size: 13px;">Verifique se o Web App (URL: ${WEB_APP_URL}) foi publicado corretamente e se possui permissão de acesso "Qualquer pessoa".</p>
+                    </div>`;
+                    reject(new Error(errorMsg));
+                } else {
+                    resolve(data);
+                }
+            };
+            
+            // 5. Adiciona o script ao corpo do documento para iniciar a requisição
+            document.body.appendChild(script);
+        });
     }
 
     function renderCard(p) {
@@ -836,39 +840,50 @@
       updateFilterButtons(); 
     }
 
-    async function loadAndRender() {
+    // NOVO NOME: Lógica que processa os dados e renderiza (antiga loadAndRender)
+    function processDataAndRender(data) {
+      const meta = document.getElementById('meta');
+      
+      allPedidos = data?.pedidos || [];
+      
+      // 1. Calcular contagem total por categoria (para os botões)
+      categoryCounts = { 'Atrasados': 0, 'Para Hoje': 0, 'Futuros': 0 };
+      allPedidos.forEach(p => {
+          categoryCounts[p.categoria] = (categoryCounts[p.categoria] || 0) + 1;
+      });
+
+      // 2. Popular filtros de divisão
+      const divs = Array.from(new Set(allPedidos.map(p => (p.divisao || '').trim()).filter(Boolean))).sort();
+      const filtersEl = document.getElementById('divisionFilters');
+      filtersEl.innerHTML = '';
+      activeDivisions = new Set();
+      divs.forEach(div => {
+        const id = `div-${div.replace(/\s+/g, '_')}`;
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" id="${id}" value="${div}"> ${div}`;
+        filtersEl.appendChild(label);
+        label.querySelector('input').addEventListener('change', (e) => {
+          const val = e.target.value;
+          if (e.target.checked) activeDivisions.add(val);
+          else activeDivisions.delete(val);
+          render(document.getElementById('searchInput').value);
+        });
+      });
+
+      meta.textContent = `Atualizado: ${new Date(data.updatedAt).toLocaleString()} • Total: ${data.totalPedidos}`;
+      render(document.getElementById('searchInput').value);
+    }
+
+    // NOVO: Função que inicia o carregamento
+    async function loadDataAndProcess() {
       const meta = document.getElementById('meta');
       meta.textContent = 'Carregando...';
       try {
+        // fetchData agora usa JSONP e resolve com os dados
         const data = await fetchData();
-        allPedidos = data?.pedidos || [];
-        
-        // 1. Calcular contagem total por categoria (para os botões)
-        categoryCounts = { 'Atrasados': 0, 'Para Hoje': 0, 'Futuros': 0 };
-        allPedidos.forEach(p => {
-            categoryCounts[p.categoria] = (categoryCounts[p.categoria] || 0) + 1;
-        });
-
-        // 2. Popular filtros de divisão
-        const divs = Array.from(new Set(allPedidos.map(p => (p.divisao || '').trim()).filter(Boolean))).sort();
-        const filtersEl = document.getElementById('divisionFilters');
-        filtersEl.innerHTML = '';
-        activeDivisions = new Set();
-        divs.forEach(div => {
-          const id = `div-${div.replace(/\s+/g, '_')}`;
-          const label = document.createElement('label');
-          label.innerHTML = `<input type="checkbox" id="${id}" value="${div}"> ${div}`;
-          filtersEl.appendChild(label);
-          label.querySelector('input').addEventListener('change', (e) => {
-            const val = e.target.value;
-            if (e.target.checked) activeDivisions.add(val);
-            else activeDivisions.delete(val);
-            render(document.getElementById('searchInput').value);
-          });
-        });
-
-        meta.textContent = `Atualizado: ${new Date(data.updatedAt).toLocaleString()} • Total: ${data.totalPedidos}`;
-        render(document.getElementById('searchInput').value);
+        // processDataAndRender é chamada dentro de handleGasResponse
+        // Mas para o caso de sucesso do Promise, chamamos aqui
+        processDataAndRender(data);
       } catch (err) {
         // Erro já tratado e reportado em fetchData
         console.error("Erro final no carregamento:", err);
@@ -891,11 +906,11 @@
     });
 
     // Botão atualizar
-    document.getElementById('refreshBtn').addEventListener('click', loadAndRender);
+    document.getElementById('refreshBtn').addEventListener('click', loadDataAndProcess);
 
     // Primeira carga e auto-refresh
-    loadAndRender();
-    setInterval(loadAndRender, AUTO_REFRESH_MS);
+    loadDataAndProcess();
+    setInterval(loadDataAndProcess, AUTO_REFRESH_MS);
 
 
     // --- LÓGICA DE ALTERNÂNCIA DE VIEW ---
@@ -924,7 +939,7 @@
     let ultimoNumeroPedido = null;
     let itensDoPedido = [];
 
-    function rastreadorBuscarPedido() {
+    function rastreadorBuscarPedido( ) {
       const orderNumber = document.getElementById('orderNumber').value.trim();
       
       if (!orderNumber) {
@@ -1139,7 +1154,7 @@
       let yPosition = margin;
       
       const corPrimaria = [0, 71, 171];
-      const cor Secundaria = [204, 0, 0];
+      const corSecundaria = [204, 0, 0];
       const corTexto = [51, 51, 51];
       const corTextoClaro = [153, 153, 153];
       
