@@ -18,6 +18,8 @@
       --stage1: #9ca3af;
       --stage2: #60a5fa;   /* Azul mais suave para progresso 'Liberado' */
       --stage3: #16a34a;
+      
+      /* Cores de alerta */
       --danger-bg: #fee2e2; --danger-tx: #b91c1c;
       --warn-bg: #fef3c7;   --warn-tx: #b45309;
       --ok-bg: #dcfce7;     --ok-tx: #166534;
@@ -25,7 +27,12 @@
       /* NOVAS CORES DE FUNDO */
       --liberado-bg: #e6f7ff; /* Azul muito claro (Levemente azulado) */
       --liberado-border: #a8d5ff; /* Borda levemente azul */
-
+      
+      /* NOVAS CORES PARA CARD ATIVO (Conforme solicitação 2, 3 e 4) */
+      --active-atrasados: var(--danger-tx); /* Vermelho Escuro */
+      --active-hoje: var(--warn-tx);         /* Amarelo/Laranja Escuro */
+      --active-futuros: var(--stage3);       /* Verde Escuro */
+      
       /* VARS DO RASTREADOR (Adaptadas) */
       --doremus-blue: var(--primary); /* Reutilizando a cor primária */
       --doremus-red: var(--accent); /* Reutilizando a cor de destaque */
@@ -76,6 +83,38 @@
         color: var(--muted);
         text-align: center;
     }
+    
+    /* Estilo para o menu suspenso na sidebar (Vendedora) */
+    .sidebar select {
+        width: 100%;
+        padding: 6px 8px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 13px;
+        color: var(--text);
+        background: #fff;
+        margin-bottom: 15px;
+        cursor: pointer;
+    }
+    
+    /* Estilos para o novo filtro de estágios (radios) */
+    .stage-filters {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border);
+    }
+    .stage-filters label {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 13px;
+        color: var(--muted);
+        cursor: pointer;
+    }
+    .stage-filters input[type="radio"] {
+        transform: scale(1.1);
+        margin-right: 8px;
+    }
+
 
     header {
       position: sticky; top: 0; z-index: 10;
@@ -102,15 +141,80 @@
       padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;
     }
 
-    .filters {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 20px; border-bottom: 1px solid var(--border); background: #fafafa;
+    /* NOVOS ESTILOS PARA CARDS DE CONTAGEM (HEADER) */
+    .count-cards-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 10px 20px 20px;
+        background: #fafafa;
+        border-bottom: 1px solid var(--border);
     }
-    .filter-btn {
-      border: 1px solid var(--border); background: var(--chip); color: var(--primary);
-      padding: 6px 12px; border-radius: 999px; font-weight: 600; cursor: pointer; font-size: 13px;
+    .count-card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.2s;
     }
-    .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .count-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+    }
+    
+    /* 2, 3, 4. Cores do card ativo */
+    .count-card.active-Atrasados {
+        background: var(--danger-bg);
+        color: var(--active-atrasados);
+        border-color: var(--active-atrasados);
+        box-shadow: 0 4px 8px rgba(185, 28, 28, 0.2);
+    }
+    .count-card.active-ParaHoje {
+        background: var(--warn-bg);
+        color: var(--active-hoje);
+        border-color: var(--active-hoje);
+        box-shadow: 0 4px 8px rgba(180, 83, 9, 0.2);
+    }
+    .count-card.active-Futuros {
+        background: var(--ok-bg);
+        color: var(--active-futuros);
+        border-color: var(--active-futuros);
+        box-shadow: 0 4px 8px rgba(22, 163, 74, 0.2);
+    }
+    
+    .count-card-header {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--muted); /* Padrão inativo */
+    }
+    /* Corrigir cor do header do card ativo */
+    .count-card.active-Atrasados .count-card-header { color: var(--active-atrasados); }
+    .count-card.active-ParaHoje .count-card-header { color: var(--active-hoje); }
+    .count-card.active-Futuros .count-card-header { color: var(--active-futuros); }
+
+
+    .count-card-header .icon {
+        font-size: 16px;
+        margin-right: 6px;
+        /* Cores do ícone padrão */
+        color: inherit; 
+    }
+    
+    .count-card-value {
+        font-size: 28px;
+        font-weight: 800;
+        line-height: 1;
+        color: var(--text); /* Padrão inativo */
+    }
+    /* Corrigir cor do valor do card ativo */
+    .count-card.active-Atrasados .count-card-value { color: var(--active-atrasados); }
+    .count-card.active-ParaHoje .count-card-value { color: var(--active-hoje); }
+    .count-card.active-Futuros .count-card-value { color: var(--active-futuros); }
+
 
     main { padding: 16px 20px; }
 
@@ -200,6 +304,7 @@
     }
 
     /* ESTILOS DO RASTREADOR DE PEDIDOS (MANTIDOS) */
+    /* ... (Estilos do Rastreador de Pedidos, omitidos para brevidade, mas intactos) ... */
     .tracker-wrapper { padding: 16px 20px; }
     .tracker-container { background: white; border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.1); overflow: hidden; max-width: 700px; margin: 0 auto; min-height: calc(100vh - 40px); }
     .tracker-header { background: linear-gradient(135deg, var(--doremus-blue-light) 0%, var(--doremus-blue) 100%); color: white; padding: 30px; text-align: center; }
@@ -296,6 +401,27 @@
         </a>
       </p>
 
+      <h3>Filtrar Vendedora</h3>
+      <select id="filterVendedora" onchange="render(document.getElementById('searchInput').value)">
+        <option value="">Todas</option>
+      </select>
+      
+      <h3>Filtrar Estágio</h3>
+      <div id="stageFilters" class="stage-filters">
+        <label>
+          <input type="radio" name="stage-filter" value="0" checked onchange="setStageFilter(this.value)"> Todos
+        </label>
+        <label>
+          <input type="radio" name="stage-filter" value="1" onchange="setStageFilter(this.value)"> A Liberar
+        </label>
+        <label>
+          <input type="radio" name="stage-filter" value="2" onchange="setStageFilter(this.value)"> Liberados
+        </label>
+        <label>
+          <input type="radio" name="stage-filter" value="3" onchange="setStageFilter(this.value)"> Faturados
+        </label>
+      </div>
+
       <h3>Filtrar divisão</h3>
       <div id="divisionFilters"></div>
       
@@ -321,11 +447,12 @@
             <input type="text" id="searchInput" placeholder="Buscar pedido, cliente, item ou divisão..." />
           </div>
 
-          <div class="filters">
-            <button class="filter-btn active" data-cat="Atrasados">Atrasados</button>
-            <button class="filter-btn" data-cat="Para Hoje">Para Hoje</button>
-            <button class="filter-btn" data-cat="Futuros">Futuros</button>
+          <div id="countCardsContainer" class="count-cards-container">
+            <div id="cardAtrasados" class="count-card" data-cat="Atrasados" onclick="setCategoryFilter('Atrasados')"></div>
+            <div id="cardParaHoje" class="count-card" data-cat="Para Hoje" onclick="setCategoryFilter('Para Hoje')"></div>
+            <div id="cardFuturos" class="count-card" data-cat="Futuros" onclick="setCategoryFilter('Futuros')"></div>
           </div>
+          
         </header>
 
         <main>
@@ -394,15 +521,42 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     // --- LÓGICA DO DASHBOARD DE PEDIDOS PENDENTES ---
-    // ATENÇÃO: SUBSTITUA PELA SUA URL REAL DO GAS
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyvSqRwhuFoHeFPKpsIY3oCoH0b84_uIkDntZhuAtLsV3XvWlgSKcvfNMyx_KDb5ro/exec'; 
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyvSqRwhuFoHeFPKpsIY3oCoH0b84_uIkDntZhuAtLsV3XvWlgSKcvfNMyx_KDb5ro/exec';
     const AUTO_REFRESH_MS = 600000; // 10 min
     const LOGO_URL = 'https://www.appsheet.com/fsimage.png?appid=e6dbb840-9231-483a-9c9c-f878f9afa058&datasource=google&filename=DocId%3D1xWPFjq8YL808Dv40uzwimCN0j8-UwwoD&signature=f8b5fd7133e3ad2b0f5f8f16ede0593312d97ed3f9f333f2b8957f84f58c29c4&tableprovider=google&userid=104514639';
     document.getElementById('logoImg').src = LOGO_URL;
 
     let allPedidos = [];
-    let activeCategory = 'Atrasados';
+    let activeCategory = 'Para Hoje'; // DEFINIDO AGORA COMO "PARA HOJE" para começar no centro da tela
     let activeDivisions = new Set();
+    let activeStageFilter = '0'; // 0 = Todos, 1 = A Liberar, 2 = Liberado, 3 = Faturado
+    
+    // Mapeamento para corrigir a exibição do nome da Categoria no frontend
+    const CATEGORY_MAP = {
+        "Atrasados": "Hoje", // Categoria do backend (Hoje) vira "Atrasados" na exibição
+        "Para Hoje": "Futuros", // Categoria do backend (Amanhã) vira "Para Hoje" na exibição
+        "Futuros": "Futuros", // Categoria do backend (Futuros+1) vira "Futuros" na exibição
+    };
+    
+    // Mapeamento Inverso: Usado para o filtro do Header
+    const INVERSE_CATEGORY_MAP = {
+        "Atrasados": "Atrasados", // Se o usuário clica em 'Atrasados' (Visual), usamos 'Atrasados' (Backend)
+        "Para Hoje": "Para Hoje", // Se o usuário clica em 'Para Hoje' (Visual), usamos 'Para Hoje' (Backend)
+        "Futuros": "Futuros", // Se o usuário clica em 'Futuros' (Visual), usamos 'Futuros' (Backend)
+    };
+
+
+    function setCategoryFilter(category) {
+        // Usa o nome da categoria VISUAL para definir o filtro, mas usa o nome do BACKEND
+        // activeCategory = category; // Revertido para usar o nome do backend, mas a lógica de filtro compensa
+        activeCategory = INVERSE_CATEGORY_MAP[category] || category; // Usamos o nome de backend para o filtro
+        render(document.getElementById('searchInput').value);
+    }
+    
+    function setStageFilter(value) {
+        activeStageFilter = value;
+        render(document.getElementById('searchInput').value);
+    }
 
     function formatDateIsoToBr(iso) {
       if (!iso) return '-';
@@ -420,17 +574,14 @@
       if (cat === 'Para Hoje') return '<span class="badge badge-warn">Para Hoje</span>';
       return '<span class="badge badge-ok">Futuros</span>';
     }
-    
-    // *** FUNÇÃO DE BUSCA AJUSTADA PARA JSONP (necessário para GitHub Pages/CORS) ***
+
     async function fetchData() {
+      // Usando JSONP para evitar problemas de CORS com o GAS
       return new Promise((resolve, reject) => {
         const callbackName = 'jsonpCallback_' + Date.now();
-        
-        // Cria a tag <script> que injeta o código JSONP na página
         const script = document.createElement('script');
         script.src = WEB_APP_URL + '?callback=' + callbackName;
         
-        // Define a função global que será chamada pelo GAS
         window[callbackName] = (data) => {
           document.body.removeChild(script);
           delete window[callbackName];
@@ -441,17 +592,16 @@
           }
         };
 
-        // Trata erro de carregamento do script
         script.onerror = () => {
           document.body.removeChild(script);
           delete window[callbackName];
-          reject(new Error('Erro ao carregar script do backend (verifique a URL do GAS e a publicação).'));
+          reject(new Error('Erro ao carregar script do backend.'));
         };
 
-        // Adiciona o script ao corpo do documento para executá-lo
         document.body.appendChild(script);
       });
     }
+
 
     function renderCard(p) {
       const card = document.createElement('div');
@@ -534,6 +684,50 @@
       card.appendChild(body);
       return card;
     }
+    
+    // NOVO: Função para atualizar o conteúdo dos cards de contagem (com cores dinâmicas e contagem filtrada)
+    function updateCountCards(counts) {
+        
+        // Mapeamento da CATEGORIA REAL do backend para o NOME VISUAL do frontend
+        const VISUAL_CATEGORIES = {
+            'Atrasados': { name: 'Atrasados', icon: '&#x26A0;', activeClass: 'active-Atrasados', id: 'cardAtrasados' },
+            'Para Hoje': { name: 'Para Hoje', icon: '&#x23F1;', activeClass: 'active-ParaHoje', id: 'cardParaHoje' },
+            'Futuros':   { name: 'Futuros',   icon: '&#x2705;', activeClass: 'active-Futuros',   id: 'cardFuturos' }
+        };
+
+        // Ordem de exibição desejada: Atrasados, Para Hoje, Futuros
+        const order = ['Atrasados', 'Para Hoje', 'Futuros'];
+
+        order.forEach(visualCatName => {
+            const cat = VISUAL_CATEGORIES[visualCatName];
+            
+            // O nome da categoria que vem no objeto 'counts' é o nome do BACKEND.
+            // Devido ao desalinhamento de 1 dia:
+            // Se o usuário clica em "Atrasados" (Visual), ele quer os pedidos classificados como "Atrasados" (Backend)
+            // Se o usuário clica em "Para Hoje" (Visual), ele quer os pedidos classificados como "Para Hoje" (Backend)
+            // Se o usuário clica em "Futuros" (Visual), ele quer os pedidos classificados como "Futuros" (Backend)
+            // A chave do count é igual ao nome visual, mas a contagem já está filtrada por categoria.
+
+            const card = document.getElementById(cat.id);
+            if (!card) return;
+            
+            const countValue = counts[cat.name] || 0;
+            
+            card.innerHTML = `
+                <div class="count-card-header">
+                    <span class="icon">${cat.icon}</span> ${cat.name}
+                </div>
+                <div class="count-card-value">${countValue}</div>
+            `;
+            
+            // 2, 3, 4. Aplica a classe de cor específica se for o filtro ativo
+            card.classList.remove('active-Atrasados', 'active-ParaHoje', 'active-Futuros');
+            if (activeCategory === cat.name) {
+                card.classList.add(cat.activeClass);
+            }
+        });
+    }
+
 
     function render(searchTerm = '') {
       // Condição de saída ajustada: se o dashboard está explícitamente escondido, não renderiza.
@@ -543,26 +737,55 @@
       const sections = document.getElementById('sections');
       sections.innerHTML = '';
 
-      let filtered = allPedidos.filter(p => p.categoria === activeCategory);
-
-      if (activeDivisions.size > 0) {
-        filtered = filtered.filter(p => p.divisao && activeDivisions.has(String(p.divisao).trim()));
+      // --- PASSO 1: APLICA FILTROS DE SIDEBAR A TODOS OS PEDIDOS PARA OBTER AS CONTAGENS CORRETAS ---
+      let filteredForCounts = allPedidos;
+      
+      // FILTRO DE VENDEDORA (Menu Suspenso)
+      const selectedVendedora = document.getElementById('filterVendedora').value;
+      if (selectedVendedora) {
+        filteredForCounts = filteredForCounts.filter(p => p.vendedora && String(p.vendedora).trim() === selectedVendedora);
+      }
+      
+      // FILTRO DE DIVISÃO (Checkboxes)
+      const todasDivisoes = Array.from(document.querySelectorAll('#divisionFilters input[type="checkbox"]')).map(el => el.value);
+      if (activeDivisions.size > 0 && activeDivisions.size < todasDivisoes.length) {
+          filteredForCounts = filteredForCounts.filter(p => p.divisao && activeDivisions.has(String(p.divisao).trim()));
       }
 
-// Busca por Pedido, Cliente, Divisão ou Item
+      // FILTRO DE ESTÁGIO (Sidebar)
+      const targetStage = parseInt(activeStageFilter); 
+      if (targetStage > 0) {
+          if (targetStage === 3) {
+             filteredForCounts = filteredForCounts.filter(p => p.stage === 3);
+          } else if (targetStage === 2) {
+             filteredForCounts = filteredForCounts.filter(p => p.stage === 2);
+          } else if (targetStage === 1) {
+             filteredForCounts = filteredForCounts.filter(p => p.stage === 1);
+          }
+      }
+      
+      // --- PASSO 2: CALCULA AS NOVAS CONTAGENS (usa a categoria do backend) ---
+      const counts = filteredForCounts.reduce((acc, p) => {
+          acc[p.categoria] = (acc[p.categoria] || 0) + 1;
+          return acc;
+      }, {});
+      
+      // --- PASSO 3: APLICA O FILTRO FINAL DE CATEGORIA (ATRASADOS/HOJE/FUTUROS) ---
+      let filtered = filteredForCounts.filter(p => p.categoria === activeCategory);
+
+
+      // --- PASSO 4: APLICA FILTRO DE BUSCA (Search Input) ---
       if (searchTerm) {
         const t = searchTerm.toLowerCase();
         filtered = filtered.filter(p => {
-          // 1. Busca nos campos principais (Pedido, Cliente, Divisão)
           if (
             String(p.pedido).toLowerCase().includes(t) ||
             (p.cliente || '').toLowerCase().includes(t) ||
-            (p.divisao || '').toLowerCase().includes(t)
+            (p.divisao || '').toLowerCase().includes(t) ||
+            (p.vendedora || '').toLowerCase().includes(t)
           ) {
             return true;
           }
-
-          // 2. Busca nos itens do pedido
           if (p.items && p.items.length > 0) {
             return p.items.some(item => 
               (item.itemDesc || '').toLowerCase().includes(t) ||
@@ -572,7 +795,10 @@
           return false;
         });
       }
-
+      
+      // --- PASSO 5: ATUALIZA OS CARDS DE CONTAGEM E A LISTA VISÍVEL ---
+      updateCountCards(counts); // 1. Passa as contagens filtradas
+      
       const grid = document.createElement('div');
       grid.className = 'grid';
       filtered.forEach(p => grid.appendChild(renderCard(p)));
@@ -587,16 +813,40 @@
       try {
         const data = await fetchData();
         allPedidos = data?.pedidos || [];
+        
+        // 1. FILTRO DE VENDEDORAS (Menu Suspenso)
+        const vendedoras = Array.from(new Set(allPedidos.map(p => (p.vendedora || '').trim()).filter(Boolean))).sort();
+        const selectVendedora = document.getElementById('filterVendedora');
+        const selectedValue = selectVendedora.value; 
+        
+        selectVendedora.innerHTML = '<option value="">Todas</option>';
+        vendedoras.forEach(vend => {
+          const option = document.createElement('option');
+          option.value = vend;
+          option.textContent = vend;
+          selectVendedora.appendChild(option);
+        });
+        selectVendedora.value = selectedValue; 
 
+        // 2. FILTRO DE DIVISÃO (Checkboxes - MANTIDO)
         const divs = Array.from(new Set(allPedidos.map(p => (p.divisao || '').trim()).filter(Boolean))).sort();
-        const filtersEl = document.getElementById('divisionFilters');
-        filtersEl.innerHTML = '';
-        activeDivisions = new Set();
+        const divFiltersEl = document.getElementById('divisionFilters');
+        const isInitialLoad = divFiltersEl.innerHTML === ''; 
+        divFiltersEl.innerHTML = '';
+        
+        if (isInitialLoad) {
+           activeDivisions = new Set(divs); 
+           // Define a categoria inicial para 'Atrasados' na primeira carga, se não estiver definida
+           // activeCategory = 'Atrasados'; // Vamos deixar a definição inicial acima da função.
+        }
+        
         divs.forEach(div => {
           const id = `div-${div.replace(/\s+/g, '_')}`;
+          const isChecked = activeDivisions.has(div);
           const label = document.createElement('label');
-          label.innerHTML = `<input type="checkbox" id="${id}" value="${div}"> ${div}`;
-          filtersEl.appendChild(label);
+          label.innerHTML = `<input type="checkbox" id="${id}" value="${div}" ${isChecked ? 'checked' : ''}> ${div}`;
+          divFiltersEl.appendChild(label);
+          
           label.querySelector('input').addEventListener('change', (e) => {
             const val = e.target.value;
             if (e.target.checked) activeDivisions.add(val);
@@ -605,7 +855,15 @@
           });
         });
 
+
         meta.textContent = `Atualizado: ${new Date(data.updatedAt).toLocaleString()} • Total: ${data.totalPedidos}`;
+        
+        // 3. Garante que o rádio button de estágio 'Todos' esteja selecionado na primeira carga
+        if (isInitialLoad) {
+            activeStageFilter = '0';
+            document.querySelector('#stageFilters input[value="0"]').checked = true;
+        }
+
         render(document.getElementById('searchInput').value);
       } catch (err) {
         const sections = document.getElementById('sections');
@@ -621,16 +879,6 @@
     // Busca
     document.getElementById('searchInput').addEventListener('input', (e) => {
       render(e.target.value);
-    });
-
-    // Filtros de categoria
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeCategory = btn.dataset.cat;
-        render(document.getElementById('searchInput').value);
-      });
     });
 
     // Botão atualizar
@@ -708,18 +956,18 @@
         infoHtml += '<div class="info-label">Número do Pedido</div>';
         infoHtml += '<div class="info-value">' + resultado.numero + '</div>';
         infoHtml += '</div>';
-        html += '<div class="info-item">';
-        html += '<div class="info-label">Cliente</div>';
-        html += '<div class="info-value">' + resultado.cliente + '</div>';
-        html += '</div>';
-        html += '</div>';
-        html += '<div class="info-row">';
-        html += '<div class="info-item">';
-        html += '<div class="info-label">Data de Entrega Prevista</div>';
-        html += '<div class="info-value">' + resultado.entrega + '</div>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
+        infoHtml += '<div class="info-item">';
+        infoHtml += '<div class="info-label">Cliente</div>';
+        infoHtml += '<div class="info-value">' + resultado.cliente + '</div>';
+        infoHtml += '</div>';
+        infoHtml += '</div>';
+        infoHtml += '<div class="info-row">';
+        infoHtml += '<div class="info-item">';
+        infoHtml += '<div class="info-label">Data de Entrega Prevista</div>';
+        infoHtml += '<div class="info-value">' + resultado.entrega + '</div>';
+        infoHtml += '</div>';
+        infoHtml += '</div>';
+        infoHtml += '</div>';
         
         resultsDiv.innerHTML = infoHtml;
         resultsDiv.classList.add('show');
@@ -814,7 +1062,7 @@
       html += '<div class="timeline-title">📅 Histórico de Atualizações</div>';
       
       const itensAgrupados = resultado.atualizacoesAgrupadas;
-      const itensOrdenados = Object.keys(itensAgrupados).sort();
+      const itensOrdenados = Object.keys(itensAgrupadas).sort();
 
       if (itensOrdenados.length === 0) {
           html += '<p>Nenhuma atualização de status encontrada para os itens selecionados.</p>';
