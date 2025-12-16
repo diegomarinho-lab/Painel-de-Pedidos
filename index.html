@@ -37,60 +37,43 @@
 
     // NOVO: Função de callback global para JSONP
     window.handleGasResponse = function(data) {
-        // Esta função é chamada automaticamente quando o GAS retorna os dados
+        const meta = document.getElementById('meta');
+        const sections = document.getElementById('sections');
         
         // Remove o script tag injetado
         const script = document.getElementById('gasScript');
         if (script) script.remove();
-        
-        // Chama a função principal de carregamento
-        loadDataAndProcess(data);
+
+        if (data?.error) {
+            const errorMsg = data.message || 'Erro de backend no GAS. Verifique os logs.';
+            meta.textContent = `ERRO CRÍTICO: ${errorMsg}`;
+            sections.innerHTML = `<div style="padding: 20px; color: var(--danger-tx); background: var(--danger-bg); border-radius: 8px;">
+                Não foi possível carregar os dados. Detalhes do Erro: ${errorMsg}
+                <p style="margin-top: 10px; font-size: 13px;">Verifique se o Web App (URL: ${WEB_APP_URL}) foi publicado corretamente e se possui permissão de acesso "Qualquer pessoa".</p>
+            </div>`;
+        } else {
+            // Chama a função que processa e renderiza os dados
+            processDataAndRender(data);
+        }
     }
 
-    // NOVO: Função para carregar dados usando JSONP
-    function fetchData() {
-        return new Promise((resolve, reject) => {
-            const meta = document.getElementById('meta');
-            
-            // 1. Define a URL com o parâmetro 'callback'
-            const url = WEB_APP_URL + '?callback=handleGasResponse';
-            
-            // 2. Cria um novo elemento script
-            const script = document.createElement('script');
-            script.src = url;
-            script.id = 'gasScript';
-            
-            // 3. Define um timeout para caso a requisição falhe
-            const timeout = setTimeout(() => {
-                script.remove();
-                meta.textContent = `ERRO CRÍTICO: Timeout ao carregar dados do Google Apps Script.`;
-                document.getElementById('sections').innerHTML = `<div style="padding: 20px; color: var(--danger-tx); background: var(--danger-bg); border-radius: 8px;">
-                    Não foi possível carregar os dados. Detalhes do Erro: Timeout ao carregar dados do Google Apps Script.
-                    <p style="margin-top: 10px; font-size: 13px;">Verifique se o Web App (URL: ${WEB_APP_URL}) foi publicado corretamente e se possui permissão de acesso "Qualquer pessoa".</p>
-                </div>`;
-                reject(new Error('Timeout ao carregar dados do Google Apps Script.'));
-            }, 30000); // 30 segundos de timeout
-            
-            // 4. Sobrescreve a função original loadDataAndProcess para usar os dados do JSONP
-            window.loadDataAndProcess = function(data) {
-                clearTimeout(timeout);
-                
-                if (data?.error) {
-                    const errorMsg = data.message || 'Erro de backend no GAS. Verifique os logs.';
-                    meta.textContent = `ERRO CRÍTICO: ${errorMsg}`;
-                    document.getElementById('sections').innerHTML = `<div style="padding: 20px; color: var(--danger-tx); background: var(--danger-bg); border-radius: 8px;">
-                        Não foi possível carregar os dados. Detalhes do Erro: ${errorMsg}
-                        <p style="margin-top: 10px; font-size: 13px;">Verifique se o Web App (URL: ${WEB_APP_URL}) foi publicado corretamente e se possui permissão de acesso "Qualquer pessoa".</p>
-                    </div>`;
-                    reject(new Error(errorMsg));
-                } else {
-                    resolve(data);
-                }
-            };
-            
-            // 5. Adiciona o script ao corpo do documento para iniciar a requisição
-            document.body.appendChild(script);
-        });
+    // NOVO: Função que inicia o carregamento (agora usa JSONP)
+    function loadAndRender() {
+        const meta = document.getElementById('meta');
+        meta.textContent = 'Carregando...';
+        
+        // 1. Define a URL com o parâmetro 'callback'
+        const url = WEB_APP_URL + '?callback=handleGasResponse';
+        
+        // 2. Cria um novo elemento script
+        const script = document.createElement('script');
+        script.src = url;
+        script.id = 'gasScript';
+        
+        // 3. Adiciona o script ao corpo do documento para iniciar a requisição
+        document.body.appendChild(script);
+        
+        // O processamento continua em window.handleGasResponse
     }
 
     function renderCard(p) {
@@ -250,22 +233,6 @@
 
         meta.textContent = `Atualizado: ${new Date(data.updatedAt).toLocaleString()} • Total: ${data.totalPedidos}`;
         render(document.getElementById('searchInput').value);
-    }
-
-    // NOVO: Função que inicia o carregamento (substitui a loadAndRender original)
-    async function loadAndRender() {
-        const meta = document.getElementById('meta');
-        meta.textContent = 'Carregando...';
-        try {
-            // fetchData agora usa JSONP e resolve com os dados
-            const data = await fetchData();
-            // processDataAndRender é chamada dentro de handleGasResponse
-            // Mas para o caso de sucesso do Promise, chamamos aqui
-            processDataAndRender(data);
-        } catch (err) {
-            // Erro já tratado e reportado em fetchData
-            console.error("Erro final no carregamento:", err);
-        }
     }
 
     // Busca
