@@ -649,7 +649,7 @@
     // --- LÓGICA DO DASHBOARD DE PEDIDOS PENDENTES ---
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyvSqRwhuFoHeFPKpsIY3oCoH0b84_uIkDntZhuAtLsV3XvWlgSKcvfNMyx_KDb5ro/exec';
     const AUTO_REFRESH_MS = 600000; // 10 min
-    const LOGO_URL = 'https://lh3.googleusercontent.com/sitesv/AAzXCkf3MpQ9HCjx7kkcz6e3dcBHUHSD_7BaeeXyr1SZZKLqv2evvfoAbIkSGyHt3gUHCchqBBYDyu-wug9nGoWcn857HaUOzXJj88CPDqhW9FJdxM-BQgdT1qShgEFaDUS-1DKb1Hh_N5ycHNDUOMlfXtDrSEQZwWPuTBrDKi8XavWCXR0joiz3smLODLU=w16383';
+    const LOGO_URL = 'https://www.appsheet.com/fsimage.png?appid=e6dbb840-9231-483a-9c9c-f878f9afa058&datasource=google&filename=DocId%3D1xWPFjq8YL808Dv40uzwimCN0j8-UwwoD&signature=f8b5fd7133e3ad2b0f5f8f16ede0593312d97ed3f9f333f2b8957f84f58c29c4&tableprovider=google&userid=104514639';
     document.getElementById('logoImg').src = LOGO_URL;
 
     let allPedidos = [];
@@ -660,8 +660,8 @@
     function formatDateIsoToBr(iso) {
       if (!iso) return '-';
       
-      // Correção da data: Apenas divide a string ISO ('YYYY-MM-DD') e reordena para o formato brasileiro.
-      // Depende da correção de +1 dia ter sido aplicada no GAS.
+      // CORREÇÃO FINAL DA DATA: Se o GAS já está compensando o fuso horário,
+      // esta função deve apenas fazer a formatação de string segura.
       const parts = iso.split('-');
       if (parts.length === 3) {
           const [y, m, d] = parts;
@@ -1262,4 +1262,3 @@
   </script>
 </body>
 </html>
-
